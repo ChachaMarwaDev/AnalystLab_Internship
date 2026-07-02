@@ -1,6 +1,4 @@
-````
 
----
 
 ## 📁 Repository Architecture
 
@@ -37,7 +35,8 @@
 
 - **Objective:** Ingest, clean, validate, and isolate patterns from structurally compromised raw datasets.
     
-- **Datasets Evaluated:** 1. _E-commerce Retail Transactions Dataset_ (Kaggle)
+- **Datasets Evaluated:** 
+    1. _E-commerce Retail Transactions Dataset_ (Kaggle)
     
     2. _Netflix Movies & TV Shows Dataset_ (Kaggle)
     
