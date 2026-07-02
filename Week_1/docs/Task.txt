@@ -1,0 +1,14 @@
+For each dataset:
+1. Load the dataset into Python (Pandas) or SQL.
+   1. E-commerce Transactions Dataset
+        https://www.kaggle.com/datasets/vijayuv/onlineretail
+   2. Netflix Movies & TV Shows Dataset
+        https://www.kaggle.com/datasets/shivamb/netflix-shows
+2. Display the first few rows.
+3. Identify:
+   - Number of rows and columns
+   - Data types of all columns
+   - Numerical features
+   - Categorical features
+   - Possible unique identifiers (primary keys)
+4. Briefly describe what the dataset contains.
