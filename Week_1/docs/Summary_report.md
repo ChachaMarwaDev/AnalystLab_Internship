@@ -1,6 +1,57 @@
 <!-- Description of the Dataset -->
 # Week 1 report
 
+## **Online Retail Dataset Summary**
+### **Overview**
+- **Size**: 541,909 transaction records with 8 features, occupying approximately 173 MB of memory.
+- **Content**: This is a retail transaction dataset containing sales data from a UK-based online retailer.
+    
+
+### **Column Breakdown**
+- **Text Columns (5)**:
+    - `InvoiceNo` - Transaction identifier
+    - `StockCode` - Product code
+    - `Description` - Product description
+    - `InvoiceDate` - Transaction date/time (stored as text)
+    - `Country` - Customer country
+- **Numeric Columns (3)**:
+    - `Quantity` - Number of items purchased
+    - `UnitPrice` - Price per unit (in £)
+    - `CustomerID` - Customer identifier
+
+### **Data Quality**
+- **Missing Data**: 136,534 missing values (3.1% of total data)
+- **Affected Columns**:
+    - `Description` - Product descriptions missing for some items
+    - `CustomerID` - Missing for non-registered customers (anonymous purchases)
+
+### **Key Observations (from sample data)**
+- **Typical Transaction**: Multiple items per invoice (same `InvoiceNo` across rows)
+- **Products**: Various retail items (home decorations, lighting, etc.)
+- **Transaction Date**: December 1, 2010 (historical data)
+- **Customer Base**: Primarily UK-based customers (sample shows United Kingdom)
+- **Currency**: Prices in £ (GBP)
+
+### **Dataset Characteristics**
+- **Transactional Data**: Each row represents a line item in an invoice
+- **Time Series**: Contains date information for trend analysis
+- **Customer Analysis**: `CustomerID` allows for customer segmentation
+- **Product Analysis**: `StockCode` and `Description` enable product-level analysis
+
+---
+## **Recommended Use Cases**
+1. **Customer Analytics**: RFM analysis, customer segmentation
+2. **Sales Analysis**: Revenue trends, product performance
+3. **Inventory Management**: Popular products, stock optimization
+4. **Geographic Analysis**: Country-level sales distribution
+5. **Time Series Analysis**: Seasonal patterns, sales forecasting
+
+---
+## **Key Metrics (from sample)**
+- **Average Quantity per row**: ~6-8 items
+- **Average Unit Price**: £2-3
+- **Typical Customer ID**: 17850
+
 ## Challenges
 ### Transact.ipynb
 1. I got FileExistsError: output_dir is not empty: ../data. Set force_download=True to replace it.
