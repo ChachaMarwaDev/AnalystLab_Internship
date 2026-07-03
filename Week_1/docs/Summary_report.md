@@ -57,7 +57,7 @@
 1. I got FileExistsError: output_dir is not empty: ../data. Set force_download=True to replace it.
     - I opted to go with a sub-directory "../data/online_retail"
 2. I got UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa3 in position 79780: invalid start byte
-    - 
+    - I changed the encoding to 'cp1252'
 
 
 ## Summary of shows.ipynb
