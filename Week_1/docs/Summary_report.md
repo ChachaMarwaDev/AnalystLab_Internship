@@ -32,20 +32,6 @@
 - **Customer Base**: Primarily UK-based customers (sample shows United Kingdom)
 - **Currency**: Prices in £ (GBP)
 
-### **Dataset Characteristics**
-- **Transactional Data**: Each row represents a line item in an invoice
-- **Time Series**: Contains date information for trend analysis
-- **Customer Analysis**: `CustomerID` allows for customer segmentation
-- **Product Analysis**: `StockCode` and `Description` enable product-level analysis
-
----
-## **Recommended Use Cases**
-1. **Customer Analytics**: RFM analysis, customer segmentation
-2. **Sales Analysis**: Revenue trends, product performance
-3. **Inventory Management**: Popular products, stock optimization
-4. **Geographic Analysis**: Country-level sales distribution
-5. **Time Series Analysis**: Seasonal patterns, sales forecasting
-
 ---
 ## **Key Metrics (from sample)**
 - **Average Quantity per row**: ~6-8 items
