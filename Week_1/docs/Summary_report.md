@@ -1,5 +1,14 @@
 <!-- Description of the Dataset -->
 # Week 1 report
+
+## Challenges
+### Transact.ipynb
+1. I got FileExistsError: output_dir is not empty: ../data. Set force_download=True to replace it.
+    - I opted to go with a sub-directory "../data/online_retail"
+2. I got UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa3 in position 79780: invalid start byte
+    - 
+
+
 ## Summary of shows.ipynb
 Netflix Movies & TV Shows Dataset Summary
 Overview
