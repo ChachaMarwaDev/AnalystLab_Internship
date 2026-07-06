@@ -27,3 +27,129 @@
 FileNotFoundError: [Errno 2] No such file or directory: '../Week_1/data/netflix_titles.csv'
 ```
 - I set working directory as root using chdir
+
+## RETAIL DATASET 
+
+|**Issue Found**|**Action Taken**|**Details**|**Count Affected**|**Status**|
+|---|---|---|---|---|
+|**MISSING VALUES**|||||
+|Missing CustomerID|Filled with 0|Sales Analytics Version: Filled 135,080 missing values with 0|135,080 rows|✅ Completed|
+|Missing CustomerID|Dropped rows|Customer Analytics Version: Kept only 406,829 rows with CustomerID (75.1%)|135,080 rows removed|✅ Completed|
+|Missing Description|Filled with "Unknown"|Replaced 1,454 missing product descriptions|1,454 rows|✅ Completed|
+|**DUPLICATES**|||||
+|Duplicate Records|Removed|Removed 5,268 exact duplicate rows while keeping first occurrence|5,268 rows removed|✅ Completed|
+|**INVALID VALUES**|||||
+|Zero Quantity|Removed|Removed rows with quantity = 0 (no business meaning)|0 rows found|✅ None Found|
+|Invalid Unit Price (≤ 0)|Removed|Removed 2,512 rows with invalid or negative prices|2,512 rows removed|✅ Completed|
+|Negative Quantity|Preserved|Kept 10,587 rows as valid returns/cancellations|10,587 rows|✅ Preserved|
+|**STANDARDIZATION**|||||
+|Date Format|Converted to datetime|Standardized from "12/1/2010 8:26" to datetime format with components|All 534,129 rows|✅ Applied|
+|Text Formatting|UPPERCASE & Title Case|Description → UPPERCASE, Country → Title Case|All rows|✅ Applied|
+|Column Names|Renamed to snake_case|Converted all column names to consistent format (e.g., InvoiceNo → invoice_no)|8 columns|✅ Applied|
+|Data Types|Optimized|Converted categorical columns (stock_code, description, country) for memory efficiency|3 columns|✅ Applied|
+|**DERIVED COLUMNS**|||||
+|Total Price|Added|Calculated as quantity × unit_price|New column|✅ Created|
+|Return Flag|Added|Boolean flag for negative quantities (is_return)|New column|✅ Created|
+|Cancelled Flag|Added|Boolean flag for invoices starting with 'C' (is_cancelled)|New column|✅ Created|
+|**VALIDATION**|||||
+|Cancelled Invoices|Flagged|Identified 9,251 rows with invoices starting with 'C' for separate analysis|9,251 rows flagged|✅ Flagged|
+|Outlier Prices|Identified|Found 4,789 rows with prices > 99th percentile|4,789 rows|✅ Flagged|
+
+---
+
+## DATASET QUALITY METRICS
+
+|**Metric**|**Before Cleaning**|**After Cleaning**|**Improvement**|
+|---|---|---|---|
+|Total Rows|541,909|534,129|7,780 rows removed (98.56% kept)|
+|Missing Values|136,534 (25.19%)|132,565 (24.82%)|3,969 missing values handled|
+|Duplicates|5,268|0|100% removed|
+|Invalid Prices|2,512|0|100% removed|
+|Memory Usage|173.13 MB|64.71 MB|108.42 MB saved (62.6% reduction)|
+|Date Format|Mixed/Inconsistent|Standardized (datetime)|100% consistent|
+|Column Names|Mixed case|snake_case|100% standardized|
+
+---
+
+## DETAILED ISSUE BREAKDOWN
+
+### 1. Missing Values
+
+|Column|Missing Count|% Missing|Action|Method Rationale|
+|---|---|---|---|---|
+|CustomerID|135,080|24.93%|Filled with 0 / Dropped|Created 2 versions: Sales (keep all) & Customer Analytics (keep only IDs)|
+|Description|1,454|0.27%|Filled with "Unknown"|Only 0.27% missing; "Unknown" clearly indicates missing data|
+
+### 2. Duplicate Records
+
+|Type|Count|Action|Impact|
+|---|---|---|---|
+|Exact Duplicate Rows|5,268|Removed|Prevented overcounting of transactions|
+
+### 3. Invalid Entries
+
+|Issue|Count|Action|Business Meaning|
+|---|---|---|---|
+|Zero Quantity|0|Removed|No business value|
+|Invalid Unit Price (≤ 0)|2,512|Removed|Data entry errors or adjustments|
+|Negative Quantity (Returns)|10,587|Preserved|Valid return/cancellation transactions|
+|Cancelled Invoices|9,251|Flagged|Invoices starting with 'C' - exclude from revenue|
+
+### 4. Standardization Applied
+
+|Component|Original Format|Standardized Format|Benefit|
+|---|---|---|---|
+|InvoiceDate|"12/1/2010 8:26"|datetime64[us]|Time-series analysis, sorting, trend detection|
+|Description|Mixed case with spaces|UPPERCASE, stripped spaces|Consistent text matching|
+|Country|Mixed case|Title Case|Consistent grouping|
+|Column Names|PascalCase (InvoiceNo)|snake_case (invoice_no)|Code readability|
+|StockCode|Object|Category|Memory optimization (categorical)|
+|Description|Object|Category|Memory optimization (categorical)|
+|Country|Object|Category|Memory optimization (categorical)|
+
+---
+
+## ANALYSIS VERSIONS CREATED
+
+|Version|Purpose|Shape|Key Features|
+|---|---|---|---|
+|**Version A: Customer Analytics**|RFM, Segmentation, CLV|401,564 × 15|Only rows with CustomerID; 4,371 unique customers|
+|**Version B: Sales Analytics**|Sales trends, Products, Revenue|534,129 × 15|All transactions; missing CustomerID filled with 0|
+|**Version C: Returns Analytics**|Returns, Quality issues|9,251 × 15|Only return transactions (negative quantity)|
+|**Version D: Revenue Analytics**|Accurate revenue calculation|524,878 × 15|Excludes cancelled invoices|
+
+---
+
+## VALIDATION RESULTS
+
+|Validation Check|Status|Finding|
+|---|---|---|
+|Missing Values|✅ Complete|All missing values handled|
+|Duplicates|✅ Complete|5,268 duplicates removed|
+|Data Types|✅ Optimized|3 columns converted to categorical|
+|Date Format|✅ Standardized|All dates in datetime format|
+|Text Case|✅ Standardized|Consistent UPPERCASE and Title Case|
+|Column Names|✅ Standardized|Snake_case applied|
+|Invalid Prices|✅ Removed|2,512 rows removed|
+|Zero Quantity|✅ None|No zero quantity rows found|
+|Outliers|✅ Flagged|4,789 high-price outliers identified|
+|Cancelled Invoices|✅ Flagged|9,251 rows flagged for separate analysis|
+
+---
+
+## 💾 MEMORY OPTIMIZATION SUMMARY
+
+|Component|Before|After|Savings|
+|---|---|---|---|
+|Memory Usage|173.13 MB|64.71 MB|108.42 MB (62.6%)|
+|Data Types Optimized|Object types|Categorical types|Memory reduced|
+
+---
+
+## KEY INSIGHTS FROM CLEANING
+
+1. **Significant Missing Customer Data**: 24.93% missing requires careful handling depending on analysis goals
+2. **Valid Returns Identified**: 10,587 transactions (1.95%) are returns - valuable for customer behavior analysis
+3. **Substantial Memory Improvement**: 62.6% memory reduction through data type optimization
+4. **Clean Dataset Achieved**: From 541,909 rows with issues to 534,129 rows fully cleaned
+5. **Multiple Analysis Ready**: 4 versions created for different business questions
