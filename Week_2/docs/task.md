@@ -27,3 +27,26 @@ Missing Values| Filled/Removed
 Duplicates| Removed
 Invalid Entries| Corrected
 Standardization| Applied
+
+Generate Summary Statistics
+For numerical columns:
+• Mean
+• Median
+• Minimum
+• Maximum
+• Standard Deviation
+Explore Data Patterns
+Perform at least 5 exploratory analyses for each dataset.
+Examples include:
+E-commerce Dataset
+• Top-selling products
+• Highest revenue-generating countries
+• Monthly sales trends
+• Most purchased products
+• Customer purchasing behavior
+Netflix Dataset
+• Movies vs TV Shows distribution
+• Content added by year
+• Top content-producing countries
+• Most common ratings
+• Most common genres/categories
