@@ -172,3 +172,5 @@ FileNotFoundError: [Errno 2] No such file or directory: '../Week_1/data/netflix_
 - **Seasonal trend:** Sales show an upward trend through August, followed by a decline starting in November.
 - **Best-selling product by order count:** The "White Hanging Heart T-Light Holder" was the most frequently purchased product by number of orders.
 - **Customer segmentation:** There's a small group of high-value, high-frequency customers alongside a much larger group of low-spend, occasional buyers.
+
+Linkedin post: [Week 1&2](https://www.linkedin.com/posts/chacha-marwa-dev-355394257_dataanalytics-dataengineering-datacleaning-share-7480813507412836352-_F1F/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD89CfEBNsxI5MZDtHou_-KbuyNL-oBOBWg)
