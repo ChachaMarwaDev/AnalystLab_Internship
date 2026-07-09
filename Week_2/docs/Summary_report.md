@@ -153,3 +153,22 @@ FileNotFoundError: [Errno 2] No such file or directory: '../Week_1/data/netflix_
 3. **Substantial Memory Improvement**: 62.6% memory reduction through data type optimization
 4. **Clean Dataset Achieved**: From 541,909 rows with issues to 534,129 rows fully cleaned
 5. **Multiple Analysis Ready**: 4 versions created for different business questions
+
+# EDA FINDINGS
+### Netflix Dataset — Key Findings
+
+- **Content mix:** Movies make up 69.6% of the catalog, while TV shows account for the remaining 30.4%.
+- **Growth trend:** The number of titles added to Netflix began trending upward in 2015, continued growing through 2020, and has been declining since.
+- **Top content producers:** The USA leads content production by a wide margin, followed by India and the UK.
+- **Rating distribution:** TV-MA is the most common rating, indicating a strong focus on mature audience content.
+- **Top genre:** International Movies is the most represented genre in the catalog.
+
+---
+
+### Retail Dataset — Key Findings
+
+- **Top-selling products:** Products like "Paper Craft, Little Birdie" ranked among the top 10 best-sellers by volume.
+- **Revenue by country:** The UK dominates all other countries in total revenue generated.
+- **Seasonal trend:** Sales show an upward trend through August, followed by a decline starting in November.
+- **Best-selling product by order count:** The "White Hanging Heart T-Light Holder" was the most frequently purchased product by number of orders.
+- **Customer segmentation:** There's a small group of high-value, high-frequency customers alongside a much larger group of low-spend, occasional buyers.
