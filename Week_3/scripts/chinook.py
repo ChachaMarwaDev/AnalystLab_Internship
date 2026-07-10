@@ -32,6 +32,14 @@ print(duckdb.sql("SELECT DISTINCT(country) FROM chinook.Customer").df())
 print(duckdb.sql("""
     SELECT Company, City, Address
     FROM chinook.Customer
-    WHERE Country='Germany'
+    WHERE Country='Poland'
     """).df())
+
+# %%
+# ORDER BY
+print(duckdb.sql("SELECT FirstName, LastName, Country FROM chinook.Customer ORDER BY Country LIMIT 5").df())
+
+# %%
+# GROUP BY + aggregate
+print(duckdb.sql("SELECT Country, COUNT(*) AS num_customers FROM chinook.Customer GROUP BY Country ORDER BY num_customers DESC").df())
 # %%
