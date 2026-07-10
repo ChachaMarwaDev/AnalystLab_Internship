@@ -42,4 +42,10 @@ print(duckdb.sql("SELECT FirstName, LastName, Country FROM chinook.Customer ORDE
 # %%
 # GROUP BY + aggregate
 print(duckdb.sql("SELECT Country, COUNT(*) AS num_customers FROM chinook.Customer GROUP BY Country ORDER BY num_customers DESC").df())
+
 # %%
+HAVING (filtering on the aggregate result)
+SELECT Country, COUNT(*) AS num_customers
+FROM Customer
+GROUP BY Country
+HAVING COUNT(*) > 5
