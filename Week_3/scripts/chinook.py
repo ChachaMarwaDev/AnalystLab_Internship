@@ -20,19 +20,6 @@ result = duckdb.sql("""
 print(result)
 
 # %%
-
-"""database schema           name  \
-0   chinook   main          Album   
-1   chinook   main         Artist   
-2   chinook   main       Customer   
-3   chinook   main       Employee   
-4   chinook   main          Genre   
-5   chinook   main        Invoice   
-6   chinook   main    InvoiceLine   
-7   chinook   main      MediaType   
-8   chinook   main       Playlist   
-9   chinook   main  PlaylistTrack   
-10  chinook   main          Track"""
-
-print(duckdb.sql("DESCRIBE chinook.Track").df())
+# Describes gives you a overview of the column
+# print(duckdb.sql("DESCRIBE chinook.Track").df())
 # %%
