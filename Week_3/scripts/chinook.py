@@ -56,4 +56,15 @@ print(duckdb.sql("SELECT t.Name, SUM(il.UnitPrice * il.Quantity) AS revenue FROM
 print(duckdb.sql("""
 SELECT c.CustomerId, c.FirstName, c.LastName, i.InvoiceId, i.Total FROM chinook.Customer c LEFT JOIN chinook.Invoice i ON c.CustomerId = i.CustomerId ORDER BY c.CustomerId LIMIT 5
 """).df())
+
+# %%
+# RIGHT JOIN
+print(duckdb.sql("""
+SELECT c.CustomerId, c.FirstName, i.InvoiceId, i.Total FROM chinook.Invoice i RIGHT JOIN chinook.Customer c ON i.CustomerId = c.CustomerId ORDER BY i.total DESC LIMIT 5
+""").df())
+
+# %%
+# Rank customers by total spend
+print(duckdb.sql("""SELECT CustomerId, SUM(Total) AS total_spent,
+RANK() OVER (ORDER BY SUM(Total) DESC) AS spend_rank FROM chinook.Invoice GROUP BY CustomerId LIMIT 5""").df())
 # %%
