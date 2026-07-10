@@ -22,4 +22,7 @@ print(result)
 # %%
 # Describes gives you a overview of the column
 # print(duckdb.sql("DESCRIBE chinook.Track").df())
+
+# %%
+print(duckdb.sql("SELECT DISTINCT(country) FROM chinook.Customer").df())
 # %%
