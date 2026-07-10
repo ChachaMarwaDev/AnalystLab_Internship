@@ -46,3 +46,14 @@ print(duckdb.sql("SELECT Country, COUNT(*) AS num_customers FROM chinook.Custome
 # %%
 # HAVING (filtering on the aggregate result)
 print(duckdb.sql("SELECT Country, COUNT(*) AS num_customers FROM chinook.Customer GROUP BY Country HAVING COUNT(*) > 5").df())
+
+# %%
+# INNER JOIN: revenue per track
+print(duckdb.sql("SELECT t.Name, SUM(il.UnitPrice * il.Quantity) AS revenue FROM chinook.InvoiceLine il JOIN chinook.Track t ON il.TrackId = t.TrackId GROUP BY t.Name ORDER BY revenue DESC LIMIT 10").df())
+
+# %%
+# LEFT JOIN every customer
+print(duckdb.sql("""
+SELECT c.CustomerId, c.FirstName, c.LastName, i.InvoiceId, i.Total FROM chinook.Customer c LEFT JOIN chinook.Invoice i ON c.CustomerId = i.CustomerId ORDER BY c.CustomerId LIMIT 5
+""").df())
+# %%
