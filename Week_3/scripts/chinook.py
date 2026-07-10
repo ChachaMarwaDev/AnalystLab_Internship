@@ -26,4 +26,12 @@ print(duckdb.sql("SHOW ALL TABLES").df())
 # %%
 # Checing distinct columns in country
 print(duckdb.sql("SELECT DISTINCT(country) FROM chinook.Customer").df())
+
+# %%
+# Test check customers in Poland
+print(duckdb.sql("""
+    SELECT Company, City, Address
+    FROM chinook.Customer
+    WHERE Country='Germany'
+    """).df())
 # %%
