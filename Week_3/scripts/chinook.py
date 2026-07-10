@@ -24,7 +24,7 @@ print(duckdb.sql("SHOW ALL TABLES").df())
 # print(duckdb.sql("DESCRIBE chinook.Track").df())
 
 # %%
-# Checing distinct columns in country
+# Checking distinct columns in country
 print(duckdb.sql("SELECT DISTINCT(country) FROM chinook.Customer").df())
 
 # %%
@@ -67,4 +67,6 @@ SELECT c.CustomerId, c.FirstName, i.InvoiceId, i.Total FROM chinook.Invoice i RI
 # Rank customers by total spend
 print(duckdb.sql("""SELECT CustomerId, SUM(Total) AS total_spent,
 RANK() OVER (ORDER BY SUM(Total) DESC) AS spend_rank FROM chinook.Invoice GROUP BY CustomerId LIMIT 5""").df())
+
 # %%
+# 
