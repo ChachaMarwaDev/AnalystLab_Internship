@@ -14,15 +14,16 @@ print(duckdb.sql("SHOW ALL TABLES").df())
 
 # %%
 # Test
-result = duckdb.sql("""
-    SELECT * FROM chinook.Customer LIMIT 5
-""").df()
-print(result)
+# result = duckdb.sql("""
+#     SELECT * FROM chinook.Customer LIMIT 5
+# """).df()
+# print(result)
 
 # %%
 # Describes gives you a overview of the column
 # print(duckdb.sql("DESCRIBE chinook.Track").df())
 
 # %%
+# Checing distinct columns in country
 print(duckdb.sql("SELECT DISTINCT(country) FROM chinook.Customer").df())
 # %%
