@@ -10,6 +10,8 @@ docker run
 -p 5432:5432 
 -d postgres:18
 
+docker exec -it sales-postgres psql -U postgres -d sales_db
+
 ## Chinook Database Analysis — Key Insights
 
 ### Note on execution
