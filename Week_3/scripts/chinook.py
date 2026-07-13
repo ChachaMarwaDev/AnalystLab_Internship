@@ -7,7 +7,8 @@ import duckdb
 
 # %%
 # Attach the Chinook database
-duckdb.sql("ATTACH 'Chinook_Sqlite.sqlite' AS chinook (TYPE sqlite)")
+# You need to run it once then comment it to avoid binder error 
+# duckdb.sql("ATTACH 'Chinook_Sqlite.sqlite' AS chinook (TYPE sqlite)")
 
 # Test it - list all tables
 print(duckdb.sql("SHOW ALL TABLES").df())
