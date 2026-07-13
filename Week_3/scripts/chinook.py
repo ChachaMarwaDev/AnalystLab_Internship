@@ -103,3 +103,17 @@ print(duckdb.sql("""SELECT
 FROM chinook.Invoice
 GROUP BY month
 ORDER BY month;""").df())
+
+# %%
+# Customer purchasing behavior
+print(duckdb.sql("""SELECT 
+    c.CustomerId,
+    c.FirstName || ' ' || c.LastName AS customer_name,
+    AVG(i.Total) AS avg_order_value,
+    COUNT(i.InvoiceId) AS total_orders
+FROM chinook.Customer c
+JOIN chinook.Invoice i ON c.CustomerId = i.CustomerId
+GROUP BY c.CustomerId, customer_name
+ORDER BY avg_order_value DESC""").df())
+
+# %%
