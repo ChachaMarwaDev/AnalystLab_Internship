@@ -70,4 +70,16 @@ print(duckdb.sql("""SELECT CustomerId, SUM(Total) AS total_spent,
 RANK() OVER (ORDER BY SUM(Total) DESC) AS spend_rank FROM chinook.Invoice GROUP BY CustomerId LIMIT 5""").df())
 
 # %%
+# Top performing products
+print(duckdb.sql("""SELECT 
+    t.Name AS track_name,
+    SUM(il.UnitPrice * il.Quantity) AS total_revenue,
+    SUM(il.Quantity) AS units_sold
+FROM chinook.InvoiceLine il
+JOIN chinook.Track t ON il.TrackId = t.TrackId
+GROUP BY t.Name
+ORDER BY total_revenue DESC
+LIMIT 10""").df())
+
+# %%
 # 
