@@ -15,5 +15,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "matplotlib>=3.11.0",
+    "psycopg2-binary>=2.9.12",
     "seaborn>=0.13.2",
+    "sqlalchemy>=2.0.51",
 ]

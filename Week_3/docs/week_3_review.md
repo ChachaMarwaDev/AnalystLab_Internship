@@ -3,6 +3,13 @@
 > I used Duckdb for my database and not the traditional databases as MySQL/PostgreSQl hence did not include Indexing since its columnar
 > I know the trade-offs in indexing: They speed up reads(selects) but slow down writes(UPDATE/INSERT) because the data updates the index when it changes
 
+docker run 
+--name sales-postgres 
+-e POSTGRES_PASSWORD=yourpassword 
+-e POSTGRES_DB=sales_db 
+-p 5432:5432 
+-d postgres:18
+
 ## Chinook Database Analysis — Key Insights
 
 ### Note on execution
