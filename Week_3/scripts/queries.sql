@@ -1,7 +1,8 @@
 -- ============================================
 -- CHINOOK DATABASE - SQL ANALYSIS
 -- ============================================
-
+-- treats chinook as the default schema for this session
+USE chinook;
 
 -- ============================================
 -- 2. CORE SQL QUERIES
