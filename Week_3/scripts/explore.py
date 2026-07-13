@@ -11,3 +11,4 @@ print(run_query(con, "SELECT DISTINCT country FROM chinook.Customer"))
 # %%
 with open("queries.sql") as f:
     print(run_query(con, f.read()))
+# %%
