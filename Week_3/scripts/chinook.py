@@ -82,4 +82,15 @@ ORDER BY total_revenue DESC
 LIMIT 10""").df())
 
 # %%
-# 
+# Top Customers
+print(duckdb.sql("""SELECT 
+    c.CustomerId,
+    c.FirstName || ' ' || c.LastName AS customer_name,
+    SUM(i.Total) AS total_spent,
+    COUNT(DISTINCT i.InvoiceId) AS number_of_orders
+FROM chinook.Customer c
+JOIN chinook.Invoice i ON c.CustomerId = i.CustomerId
+GROUP BY c.CustomerId, customer_name
+ORDER BY total_spent DESC
+LIMIT 10""").df())
+# %%
