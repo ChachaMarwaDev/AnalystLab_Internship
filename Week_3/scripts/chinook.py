@@ -93,4 +93,13 @@ JOIN chinook.Invoice i ON c.CustomerId = i.CustomerId
 GROUP BY c.CustomerId, customer_name
 ORDER BY total_spent DESC
 LIMIT 10""").df())
+
 # %%
+# Revenue trends over time
+print(duckdb.sql("""SELECT 
+    DATE_TRUNC('month', InvoiceDate) AS month,
+    SUM(Total) AS monthly_revenue,
+    COUNT(DISTINCT InvoiceId) AS num_invoices
+FROM chinook.Invoice
+GROUP BY month
+ORDER BY month;""").df())
