@@ -59,3 +59,291 @@ The genre-partitioned ranking (top 3 tracks per genre) returned **277 rows** acr
 This SQL portfolio piece demonstrates the full range of required skills — filtering, aggregation, joins, subqueries, window functions with partitioning, and time-series analysis — against a dataset whose business "story" is thin (synthetic, evenly distributed data) but whose **query correctness and technique coverage is strong**. The most defensible, real insight is the country concentration finding (#1) and the genre-breadth finding (#6), since those reflect actual structural properties of the data rather than artifacts of how Chinook was generated.
 
 ---
+
+# Sales Dataset (PostgreSQL, Docker)
+
+Dataset: `sales` table (flat sales/orders data — orders, customers, products, dates, deal sizes) Environment: PostgreSQL running in Docker
+
+This document explains what each query does, the SQL concept it demonstrates, and why it matters — for internship review purposes.
+
+---
+
+## 1. Basic filtering — `SELECT` + `WHERE`
+
+**Goal:** Find all cancelled orders.
+
+sql
+
+```sql
+SELECT ORDERNUMBER, CUSTOMERNAME, STATUS, SALES
+FROM sales
+WHERE STATUS = 'Cancelled';
+```
+
+**Concept:** Row-level filtering with `WHERE`. **Why it matters:** Foundation of almost every query — isolating a subset of rows based on a condition, used constantly for data quality checks and reporting.
+
+---
+
+## 2. Sorting — `ORDER BY` + `LIMIT`
+
+**Goal:** Find the 10 highest-value orders.
+
+sql
+
+```sql
+SELECT ORDERNUMBER, CUSTOMERNAME, SALES
+FROM sales
+ORDER BY SALES DESC
+LIMIT 10;
+```
+
+**Concept:** Sorting result sets and capping row count. **Why it matters:** Common pattern for "top N" reporting (top orders, top customers, top products).
+
+---
+
+## 3. Aggregation — `GROUP BY` + `SUM`
+
+**Goal:** Total sales per country.
+
+sql
+
+```sql
+SELECT COUNTRY, SUM(SALES) AS total_sales
+FROM sales
+GROUP BY COUNTRY
+ORDER BY total_sales DESC;
+```
+
+**Concept:** Grouping rows and aggregating with `SUM()`. **Why it matters:** Core of any summary/reporting query — collapsing many rows into one row per group.
+
+---
+
+## 4. Filtering aggregates — `HAVING`
+
+**Goal:** Countries with over $500,000 in total sales.
+
+sql
+
+```sql
+SELECT COUNTRY, SUM(SALES) AS total_sales
+FROM sales
+GROUP BY COUNTRY
+HAVING SUM(SALES) > 500000
+ORDER BY total_sales DESC;
+```
+
+**Concept:** `HAVING` filters _after_ aggregation, unlike `WHERE` which filters _before_. **Why it matters:** Common point of confusion for beginners — important to show I understand the distinction between filtering raw rows vs. filtering grouped results.
+
+---
+
+## 5. Multiple aggregates together — product line performance
+
+sql
+
+```sql
+SELECT 
+    PRODUCTLINE,
+    COUNT(*) AS num_orders,
+    SUM(SALES) AS total_sales,
+    AVG(SALES) AS avg_sale,
+    SUM(QUANTITYORDERED) AS total_units
+FROM sales
+GROUP BY PRODUCTLINE
+ORDER BY total_sales DESC;
+```
+
+**Concept:** Combining `COUNT`, `SUM`, and `AVG` in a single grouped query. **Why it matters:** Realistic business reporting query — a single query answering multiple questions at once (volume, revenue, average deal size) per category.
+
+---
+
+## 6. Self-join — comparing a customer's orders to each other
+
+sql
+
+```sql
+SELECT 
+    a.ORDERNUMBER AS order_1,
+    b.ORDERNUMBER AS order_2,
+    a.CUSTOMERNAME,
+    a.SALES AS sales_1,
+    b.SALES AS sales_2
+FROM sales a
+INNER JOIN sales b 
+    ON a.CUSTOMERNAME = b.CUSTOMERNAME 
+    AND a.ORDERNUMBER < b.ORDERNUMBER
+LIMIT 10;
+```
+
+**Concept:** Self-join — joining a table to itself to compare rows within the same group (here, same customer). **Why it matters:** Demonstrates understanding of joins beyond the basic two-table case; the `a.ORDERNUMBER < b.ORDERNUMBER` condition avoids duplicate pairs and self-matches — worth calling out explicitly in review as a deliberate design choice, not an accident.
+
+---
+
+## 7. Subquery in `WHERE` — orders above average
+
+sql
+
+```sql
+SELECT ORDERNUMBER, CUSTOMERNAME, SALES
+FROM sales
+WHERE SALES > (SELECT AVG(SALES) FROM sales)
+ORDER BY SALES DESC;
+```
+
+**Concept:** Scalar subquery used as a comparison value. **Why it matters:** Shows the query can reference an aggregate computed over the _whole_ table while filtering individual rows — a step beyond simple `WHERE` filtering.
+
+---
+
+## 8. Subquery with percentile — top 10% customers by spend
+
+sql
+
+```sql
+SELECT CUSTOMERNAME, SUM(SALES) AS total_spent
+FROM sales
+GROUP BY CUSTOMERNAME
+HAVING SUM(SALES) > (
+    SELECT PERCENTILE_CONT(0.9) WITHIN GROUP (ORDER BY total)
+    FROM (SELECT SUM(SALES) AS total FROM sales GROUP BY CUSTOMERNAME) t
+)
+ORDER BY total_spent DESC;
+```
+
+**Concept:** Nested subquery combined with `PERCENTILE_CONT` (a statistical window/aggregate function) to identify high-value customers. **Why it matters:** This is the most advanced query in the set — it combines aggregation, a derived table (subquery in `FROM`), and a percentile calculation. Good to highlight this one specifically as evidence of comfort with layered queries.
+
+---
+
+## 9. Top-performing products (by product line)
+
+sql
+
+```sql
+SELECT 
+    PRODUCTLINE,
+    SUM(SALES) AS total_revenue,
+    SUM(QUANTITYORDERED) AS units_sold
+FROM sales
+GROUP BY PRODUCTLINE
+ORDER BY total_revenue DESC;
+```
+
+**Concept:** Grouped aggregation for a business "top performer" question. **Note:** Dataset has no individual product name field, so `PRODUCTLINE` is used as the grouping level — worth noting this data limitation explicitly in the review rather than letting it look like an oversight.
+
+---
+
+## 10. Top customers
+
+sql
+
+```sql
+SELECT 
+    CUSTOMERNAME,
+    SUM(SALES) AS total_spent,
+    COUNT(DISTINCT ORDERNUMBER) AS num_orders
+FROM sales
+GROUP BY CUSTOMERNAME
+ORDER BY total_spent DESC
+LIMIT 10;
+```
+
+**Concept:** `COUNT(DISTINCT ...)` combined with `SUM` for a customer-level summary. **Why it matters:** `COUNT(DISTINCT ORDERNUMBER)` avoids overcounting if a customer has multiple line items per order — worth flagging this as a deliberate correctness choice.
+
+---
+
+## 11. Revenue trends over time
+
+sql
+
+```sql
+SELECT 
+    YEAR_ID,
+    MONTH_ID,
+    SUM(SALES) AS monthly_revenue,
+    COUNT(DISTINCT ORDERNUMBER) AS num_orders
+FROM sales
+GROUP BY YEAR_ID, MONTH_ID
+ORDER BY YEAR_ID, MONTH_ID;
+```
+
+**Concept:** Time-series aggregation using pre-built date parts (`YEAR_ID`, `MONTH_ID`). **Why it matters:** Classic trend-analysis query; grouping by two columns to get a clean monthly time series.
+
+---
+
+## 12. Deal size distribution
+
+sql
+
+```sql
+SELECT 
+    DEALSIZE,
+    COUNT(*) AS num_orders,
+    AVG(SALES) AS avg_sale
+FROM sales
+GROUP BY DEALSIZE
+ORDER BY avg_sale DESC;
+```
+
+**Concept:** Categorical grouping with count + average. **Why it matters:** Simple but useful for understanding customer purchasing behavior segments (small/medium/large deals).
+
+---
+
+## 13. Query optimization — indexing
+
+**Step 1: Baseline performance (before index)**
+
+sql
+
+```sql
+EXPLAIN ANALYZE 
+SELECT * FROM sales WHERE CUSTOMERNAME = 'Land of Toys Inc.';
+```
+
+**Step 2: Add an index on the filtered column**
+
+sql
+
+```sql
+CREATE INDEX idx_sales_customername ON sales(CUSTOMERNAME);
+```
+
+**Step 3: Re-run and compare**
+
+sql
+
+```sql
+EXPLAIN ANALYZE 
+SELECT * FROM sales WHERE CUSTOMERNAME = 'Land of Toys Inc.';
+```
+
+**Step 4: Second index for date-based queries**
+
+sql
+
+```sql
+CREATE INDEX idx_sales_yearmonth ON sales(YEAR_ID, MONTH_ID);
+```
+
+**Concept:** Using `EXPLAIN ANALYZE` to inspect the query planner's execution strategy, then adding indexes to speed up filtering. **Why it matters:** This is the most important section to document carefully for review — it shows the _before/after_ thinking, not just "I made a query." Points to capture from your `EXPLAIN ANALYZE` output:
+
+- **Before:** should show a `Seq Scan` (sequential scan — scans every row)
+- **After:** should show an `Index Scan` or `Bitmap Index Scan` on `idx_sales_customername`
+- Note the execution time difference reported at the bottom of the `EXPLAIN ANALYZE` output (`Execution Time: ...ms`)
+- The second index (`YEAR_ID, MONTH_ID`) is a **composite index** — built in anticipation of the time-series queries in section 11, since queries filtering/grouping on both columns benefit from an index covering both, in the order they're used.
+
+> **Action for review:** paste your actual `EXPLAIN ANALYZE` output (before and after) here so the reviewer can see the concrete Seq Scan → Index Scan change and the execution time delta, not just the query text.
+
+---
+
+## Summary of concepts demonstrated
+
+|Concept|Query #|
+|---|---|
+|Basic filtering (`WHERE`)|1|
+|Sorting + limiting|2|
+|Aggregation (`GROUP BY`)|3, 5, 9, 11, 12|
+|Filtering on aggregates (`HAVING`)|4, 8|
+|Self-join|6|
+|Scalar subquery|7|
+|Nested subquery + percentile|8|
+|`COUNT(DISTINCT ...)`|10, 11|
+|Time-series grouping|11|
+|Query optimization / indexing|13|
