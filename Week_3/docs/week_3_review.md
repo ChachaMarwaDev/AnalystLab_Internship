@@ -72,7 +72,6 @@ This document explains what each query does, the SQL concept it demonstrates, an
 
 **Goal:** Find all cancelled orders.
 
-sql
 
 ```sql
 SELECT ORDERNUMBER, CUSTOMERNAME, STATUS, SALES
@@ -88,7 +87,6 @@ WHERE STATUS = 'Cancelled';
 
 **Goal:** Find the 10 highest-value orders.
 
-sql
 
 ```sql
 SELECT ORDERNUMBER, CUSTOMERNAME, SALES
@@ -105,7 +103,6 @@ LIMIT 10;
 
 **Goal:** Total sales per country.
 
-sql
 
 ```sql
 SELECT COUNTRY, SUM(SALES) AS total_sales
@@ -122,7 +119,6 @@ ORDER BY total_sales DESC;
 
 **Goal:** Countries with over $500,000 in total sales.
 
-sql
 
 ```sql
 SELECT COUNTRY, SUM(SALES) AS total_sales
@@ -137,8 +133,6 @@ ORDER BY total_sales DESC;
 ---
 
 ## 5. Multiple aggregates together — product line performance
-
-sql
 
 ```sql
 SELECT 
@@ -157,8 +151,6 @@ ORDER BY total_sales DESC;
 ---
 
 ## 6. Self-join — comparing a customer's orders to each other
-
-sql
 
 ```sql
 SELECT 
@@ -180,7 +172,6 @@ LIMIT 10;
 
 ## 7. Subquery in `WHERE` — orders above average
 
-sql
 
 ```sql
 SELECT ORDERNUMBER, CUSTOMERNAME, SALES
@@ -195,7 +186,6 @@ ORDER BY SALES DESC;
 
 ## 8. Subquery with percentile — top 10% customers by spend
 
-sql
 
 ```sql
 SELECT CUSTOMERNAME, SUM(SALES) AS total_spent
@@ -214,8 +204,6 @@ ORDER BY total_spent DESC;
 
 ## 9. Top-performing products (by product line)
 
-sql
-
 ```sql
 SELECT 
     PRODUCTLINE,
@@ -231,8 +219,6 @@ ORDER BY total_revenue DESC;
 ---
 
 ## 10. Top customers
-
-sql
 
 ```sql
 SELECT 
@@ -251,8 +237,6 @@ LIMIT 10;
 
 ## 11. Revenue trends over time
 
-sql
-
 ```sql
 SELECT 
     YEAR_ID,
@@ -269,8 +253,6 @@ ORDER BY YEAR_ID, MONTH_ID;
 ---
 
 ## 12. Deal size distribution
-
-sql
 
 ```sql
 SELECT 
@@ -290,8 +272,6 @@ ORDER BY avg_sale DESC;
 
 **Step 1: Baseline performance (before index)**
 
-sql
-
 ```sql
 EXPLAIN ANALYZE 
 SELECT * FROM sales WHERE CUSTOMERNAME = 'Land of Toys Inc.';
@@ -299,15 +279,11 @@ SELECT * FROM sales WHERE CUSTOMERNAME = 'Land of Toys Inc.';
 
 **Step 2: Add an index on the filtered column**
 
-sql
-
 ```sql
 CREATE INDEX idx_sales_customername ON sales(CUSTOMERNAME);
 ```
 
 **Step 3: Re-run and compare**
-
-sql
 
 ```sql
 EXPLAIN ANALYZE 
@@ -315,8 +291,6 @@ SELECT * FROM sales WHERE CUSTOMERNAME = 'Land of Toys Inc.';
 ```
 
 **Step 4: Second index for date-based queries**
-
-sql
 
 ```sql
 CREATE INDEX idx_sales_yearmonth ON sales(YEAR_ID, MONTH_ID);
