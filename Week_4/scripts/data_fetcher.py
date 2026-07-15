@@ -7,4 +7,7 @@ link = "https://www.kaggle.com/datasets/vivek468/superstore-dataset-final"
 path = ka.dataset_download("vivek468/superstore-dataset-final", output_dir="../data")
 
 # %%
-df = pd.read_csv()
+df = pd.read_csv("../data/Sample_Superstore.csv", encoding='cp1252')
+print(df.head(2))
+
+# %%
