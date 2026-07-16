@@ -1,19 +1,80 @@
-### The real task, stripped down
+## Week 4 — Business Intelligence Dashboard
 
-**Pick one dataset:** Superstore (sales) or COVID-19 (public health trends). Don't feel pressure to do both — "additional practice" is optional, not required.
+### Task Requirements (Reference)
 
-**Pick one tool:** Power BI or Tableau (not both).
+**Dataset:** Superstore (sales) — chosen over COVID-19  
+**Tool:** Power BI
 
-### What you actually have to do (5 steps)
+**5 steps completed:**
 
-1. **Explore the data** — open it, check columns, missing values, date fields. Just get familiar.
-2. **Pick 4–6 KPIs** — not every example they listed. E.g. for Superstore: Total Revenue, Total Profit, Profit Margin, Top Region. That's enough.
-3. **Build a few charts** — a bar chart, a line chart (trend), and a map. You don't need every chart type they listed — that list is a menu, not a checklist.
-4. **Add 1–2 interactive filters** — e.g. a date slicer and a region/category filter. "Drill-down" is a nice-to-have, not mandatory to pass.
-5. **Write a few sentences of insight** per chart — "Region X drives the most profit because..." This is the "storytelling" part — just explain what the chart means in plain language.
+1. Explored the data — columns, missing values, date fields
+2. Selected KPIs — Total Sales, Total Orders, Total Profit, Profit Margin, Sales by Region/Category
+3. Built charts — bar charts, trend line, map, scatter plot
+4. Added interactive filters — region buttons, state dropdown
+5. Wrote insight statements per chart
 
-### What you submit
+**Deliverables:**
 
-- The dashboard file (.pbix or .twb) or screenshots if you can't export
-- A 5–10 slide deck: title, what the dataset is, your KPIs, dashboard screenshots, 2–3 key insights, recommendations, and a short "what I learned/struggled with"
-- A LinkedIn post tagging AnalystLab Africa with #AnalystLabAfrica, dataset used, a screenshot, and your insights
+- Dashboard file (.pbix / screenshots)
+- 5–10 slide deck
+- LinkedIn post (#AnalystLabAfrica)
+
+---
+
+### Week 4 Review — Superstore Sales Analysis
+
+#### What I Did
+
+Built a 5-page Power BI dashboard analyzing the Superstore dataset (Kaggle: Superstore Dataset Final) — roughly 5,000 orders spanning 2014–2017. Instead of putting every visual on one page, I structured it around five specific business questions:
+
+**Overview** — How is the business performing overall?
+
+![Overview](Overview.jpg)
+
+  
+
+**Geography** — Which regions and states generate the most profit?
+
+![Geographic Information](Geographic_information.jpg)
+
+  
+
+**Product Performance** — What's selling well vs. what's actually profitable?
+
+![Product performance](Product_performance.jpg)
+
+  
+
+**Discount Impact** — Is discounting helping close sales or eroding margin?
+
+![Discount Impact](Discount_Impact.jpg)
+
+  
+
+**Customer View** — Who are the highest-value customers and segments?
+
+![Customer View](Customer_view.jpg)
+
+#### Key Findings
+
+- Discounts above roughly 20% erase profit almost entirely, and Furniture — the category with the highest average discount — is the most exposed.
+- Tables and Bookcases post negative total profit despite decent sales volume, while Copiers and Phones are strong profit performers relative to their sales.
+- Sales nearly doubled from 2014 to 2017, but growth is concentrated in the West and East regions, and largely in California and New York.
+
+#### What I Learned
+
+- How to structure a dashboard around business questions instead of just charting available fields — one page, one job.
+- That sales volume alone can be misleading; profit and discount need to be viewed together to catch losing product lines.
+- How to use slicers and interactive filters to make a dashboard genuinely useful for exploration, not just static reporting.
+
+#### What I Struggled With
+
+- Deciding which visuals belonged on which page without overcrowding any single view.
+- Getting the discount-vs-profit scatter plot to read clearly, since most points cluster tightly near zero discount.
+- Translating raw chart output into plain-English business insights rather than just describing what each chart shows.
+
+#### Deliverables
+
+- 5-page interactive Power BI dashboard
+- 11-slide presentation summarizing the analysis
+- LinkedIn post on dashboard design decisions (#AnalystLabAfrica)
