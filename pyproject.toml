@@ -18,4 +18,5 @@ dev = [
     "psycopg2-binary>=2.9.12",
     "seaborn>=0.13.2",
     "sqlalchemy>=2.0.51",
+    "yfinance>=1.5.1",
 ]
