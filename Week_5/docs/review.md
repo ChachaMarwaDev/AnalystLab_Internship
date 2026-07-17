@@ -26,3 +26,8 @@ This is the same shape as the Superstore project you just did — problem → ex
 1. **Report** (3-5 pages) — Intro, Problem, Dataset Description, Analysis Process, Findings, Insights, Recommendations, Conclusion
 2. **Presentation** (5-10 slides) — condensed version of the report, visual-first
 3. **LinkedIn post** — dataset, insights, recommendations, skills used, hashtags including #AnalystLabAfrica
+
+## Problem Statement
+This telco company is losing customers (churn). We want to understand:
+what customer characteristics and behaviors are associated with churn,
+so the business can target retention efforts at the right customers.
