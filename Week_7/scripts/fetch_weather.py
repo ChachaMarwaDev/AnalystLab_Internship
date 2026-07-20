@@ -22,7 +22,7 @@ load_dotenv()  # reads .env in the current directory and loads it into os.enviro
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-API_KEY = os.getenv("OPENWEATHER_API_KEY", "YOUR_API_KEY_HERE")
+API_KEY = os.getenv("OPENWEATHER_API_KEY", "API_KEY")
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 CITIES = ["Nairobi", "Migori", "London", "New York", "Tokyo"]
