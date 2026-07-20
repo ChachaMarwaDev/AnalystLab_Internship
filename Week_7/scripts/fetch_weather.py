@@ -1,8 +1,9 @@
 """
 fetch_weather.py
 
+STEP 1 — INGESTION.
 Pulls real-time weather data from the OpenWeather Current Weather API
-for a list of cities and stores the results in a pandas DataFrame / CSV.
+for a list of cities and saves it to a raw CSV file.
 
 Setup:
     pip install requests pandas python-dotenv
@@ -14,6 +15,7 @@ Setup:
 import os
 import requests
 import pandas as pd
+from pathlib import Path
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 
@@ -22,12 +24,18 @@ load_dotenv()  # reads .env in the current directory and loads it into os.enviro
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-API_KEY = os.getenv("OPENWEATHER_API_KEY", "API_KEY")
+API_KEY = os.getenv("OPENWEATHER_API_KEY", "YOUR_API_KEY_HERE")
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 CITIES = ["Nairobi", "Migori", "London", "New York", "Tokyo"]
 
 UNITS = "metric"  # metric = Celsius & m/s; use "imperial" for Fahrenheit & mph
+
+# scripts/fetch_weather.py -> parent (scripts) -> parent (Week_7) -> data
+DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+DATA_DIR.mkdir(exist_ok=True)
+
+RAW_OUTPUT_FILE = DATA_DIR / "weather_data.csv"
 
 
 # ---------------------------------------------------------------------------
@@ -75,8 +83,7 @@ def fetch_all(cities: list[str]) -> pd.DataFrame:
 if __name__ == "__main__":
     if API_KEY == "YOUR_API_KEY_HERE":
         raise SystemExit(
-            "No API key found. Set OPENWEATHER_API_KEY as an environment "
-            "variable, or replace API_KEY in the script."
+            "No API key found. Set OPENWEATHER_API_KEY in your .env file."
         )
 
     weather_df = fetch_all(CITIES)
@@ -85,5 +92,5 @@ if __name__ == "__main__":
         print("No weather data retrieved. Check your API key and city names.")
     else:
         print(weather_df.to_string(index=False))
-        weather_df.to_csv("weather_data.csv", index=False)
-        print("\nSaved to weather_data.csv")
+        weather_df.to_csv(RAW_OUTPUT_FILE, index=False)
+        print(f"\nSaved to {RAW_OUTPUT_FILE}")

@@ -14,9 +14,13 @@ Run fetch_weather.py first to generate the raw CSV.
 """
 
 import pandas as pd
+from pathlib import Path
 
-RAW_INPUT_FILE = "weather_data.csv"
-CLEAN_OUTPUT_FILE = "weather_data_clean.csv"
+DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+DATA_DIR.mkdir(exist_ok=True)
+
+RAW_INPUT_FILE = DATA_DIR / "weather_data.csv"
+CLEAN_OUTPUT_FILE = DATA_DIR / "weather_data_clean.csv"
 
 
 # ---------------------------------------------------------------------------
