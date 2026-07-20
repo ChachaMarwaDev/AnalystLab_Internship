@@ -10,10 +10,12 @@ dependencies = [
     "ipykernel>=7.3.0",
     "kagglehub>=1.0.2",
     "pandas>=3.0.3",
+    "python-dotenv>=1.0.0",
 ]
 
 [dependency-groups]
 dev = [
+    "dotenv>=0.9.9",
     "matplotlib>=3.11.0",
     "psycopg2-binary>=2.9.12",
     "seaborn>=0.13.2",
